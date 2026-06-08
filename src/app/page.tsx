@@ -10,6 +10,9 @@ export default function Home() {
       <p style={{ fontSize: "1rem", color: "#555", lineHeight: 1.7, marginTop: "1rem" }}>
         this is text paragraph test
       </p>
+      <button style={{ marginTop: "2rem", padding: "0.75rem 2rem", fontSize: "1rem", backgroundColor: "#2d6a4f", color: "#fff", border: "none", borderRadius: "8px", cursor: "pointer" }}>
+        Click Me
+      </button>
       <p style={{ marginTop: "2rem", color: "#888", fontSize: "0.9rem" }}>
         Deployed on Vercel · Built with Next.js
       </p>
