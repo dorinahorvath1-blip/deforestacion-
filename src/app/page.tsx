@@ -59,8 +59,8 @@ export default function Home() {
   return (
     <main style={{ maxWidth: 800, margin: "0 auto", padding: "2rem 2rem 4rem", textAlign: "center" }}>
       {/* Header with logo and title */}
-      <div style={{ display: "flex", alignItems: "center", gap: "1.2rem", marginBottom: "2rem" }}>
-        <Image src="/logo.png" alt="Paz y Esperanza" width={90} height={70} style={{ objectFit: "contain" }} />
+      <div style={{ display: "flex", alignItems: "center", gap: "1.5rem", marginBottom: "2rem", marginLeft: "-2rem" }}>
+        <Image src="/logo.png" alt="Paz y Esperanza" width={150} height={120} style={{ objectFit: "contain", flexShrink: 0 }} />
         <h1 style={{ fontSize: "2rem", fontWeight: 700, textAlign: "left", color: "#1a1a1a" }}>
           Deforestación en Comunidades Nativas
         </h1>
