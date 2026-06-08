@@ -74,16 +74,18 @@ export default function Home() {
       </nav>
 
       {tab === "inicio" && (
-        <div>
-          <p style={{ fontSize: "1.2rem", color: "#555", lineHeight: 1.7 }}>
-            Esta es tu plantilla base. Está activa y lista para construir.
+        <div style={{ textAlign: "left" }}>
+          <h2 style={{ fontSize: "1.6rem", fontWeight: 700, color: "#2d6a4f", marginBottom: "1rem" }}>Nuestra Misión</h2>
+          <p style={{ fontSize: "1.05rem", color: "#333", lineHeight: 1.8, marginBottom: "1rem" }}>
+            Paz y Esperanza es una organización de derechos humanos que desde el año 1996 trabaja junto a personas, grupos y pueblos en situación de exclusión social y pobreza en el Perú, para que sean libres de distintas formas de violencia e injusticia social.
           </p>
-          <p style={{ fontSize: "1rem", color: "#555", lineHeight: 1.7, marginTop: "1rem" }}>
-            this is text paragraph test
+          <p style={{ fontSize: "1.05rem", color: "#333", lineHeight: 1.8 }}>
+            Inspirada en principios cristianos, promueve la institucionalidad democrática, el ejercicio y exigencia de los derechos humanos de las poblaciones en mayor situación de vulnerabilidad (mujeres, personas con discapacidad, migrantes e indígenas), de modo particular de los niños, niñas y adolescentes, mediante el desarrollo de capacidades, participación ciudadana, incidencia en políticas públicas y generación de oportunidades en la Amazonía, Andes y Costa peruana.
           </p>
-          <button style={{ marginTop: "2rem", padding: "0.75rem 2rem", fontSize: "1rem", backgroundColor: "#2d6a4f", color: "#fff", border: "none", borderRadius: "8px", cursor: "pointer" }}>
-            Haz clic aquí
-          </button>
+
+          <p style={{ fontSize: "1.05rem", color: "#555", lineHeight: 1.8, marginTop: "2rem", borderTop: "1px solid #e0e0e0", paddingTop: "1.5rem" }}>
+            Esta aplicación facilita el monitoreo de la deforestación en comunidades indígenas del Perú. Para explorar la situación de cada comunidad, seleccione la de su interés en la pestaña de Mapa o Estadísticas y aplique los filtros disponibles para visualizar la información relevante.
+          </p>
         </div>
       )}
 
