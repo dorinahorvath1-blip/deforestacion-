@@ -7,6 +7,9 @@ export default function Home() {
       <p style={{ fontSize: "1.2rem", color: "#555", lineHeight: 1.7 }}>
         This is your base template. It&apos;s live and ready to build on.
       </p>
+      <p style={{ fontSize: "1rem", color: "#555", lineHeight: 1.7, marginTop: "1rem" }}>
+        this is text paragraph test
+      </p>
       <p style={{ marginTop: "2rem", color: "#888", fontSize: "0.9rem" }}>
         Deployed on Vercel · Built with Next.js
       </p>
