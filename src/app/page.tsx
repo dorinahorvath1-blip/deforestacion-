@@ -1,8 +1,10 @@
 "use client";
 import { useState } from "react";
+import Image from "next/image";
 
 export default function Home() {
   const [tab, setTab] = useState("inicio");
+  const [form, setForm] = useState({ nombre: "", apellido: "", email: "", comunidad: "" });
 
   const navStyle = (t: string): React.CSSProperties => ({
     padding: "0.6rem 1.5rem",
@@ -15,16 +17,60 @@ export default function Home() {
     color: tab === t ? "#2d6a4f" : "#555",
   });
 
-  return (
-    <main style={{ maxWidth: 800, margin: "0 auto", padding: "4rem 2rem", textAlign: "center" }}>
-      <h1 style={{ fontSize: "2.5rem", fontWeight: 700, marginBottom: "1rem" }}>
-        Deforestación en Comunidades Nativas
-      </h1>
+  const inputStyle: React.CSSProperties = {
+    width: "100%",
+    padding: "0.6rem 0.9rem",
+    fontSize: "1rem",
+    border: "1px solid #ccc",
+    borderRadius: "6px",
+    marginTop: "0.3rem",
+    boxSizing: "border-box",
+  };
 
-      <nav style={{ display: "flex", justifyContent: "center", gap: "1rem", borderBottom: "1px solid #ddd", marginBottom: "2rem" }}>
+  const labelStyle: React.CSSProperties = {
+    display: "block",
+    textAlign: "left",
+    fontWeight: 600,
+    color: "#333",
+    marginTop: "1rem",
+  };
+
+  const communities = [
+    "Charapillo",
+    "Rebalse Chazuta",
+    "Alto Chazutayacu",
+    "Anak Kurutuyacu",
+    "Atun Pampa",
+    "La Esperanza",
+    "Sapaja Allpa",
+    "Reforma Llakta",
+    "San Jose Obrero",
+    "Ankash Yaku de Achinamisa",
+    "Santa Sofia",
+    "Charapillo 2",
+    "Nuevo Santa Rosa de Alto Chambira",
+    "Santa Rosillo de Yanayacu",
+    "Dos de Agosto",
+    "Pishwalla Allpa (grande)",
+    "Pishwalla Allpa (pequeña)",
+    "Los Angeles",
+  ];
+
+  return (
+    <main style={{ maxWidth: 800, margin: "0 auto", padding: "2rem 2rem 4rem", textAlign: "center" }}>
+      {/* Header with logo and title */}
+      <div style={{ display: "flex", alignItems: "center", gap: "1.2rem", marginBottom: "2rem" }}>
+        <Image src="/logo.png" alt="Paz y Esperanza" width={90} height={70} style={{ objectFit: "contain" }} />
+        <h1 style={{ fontSize: "2rem", fontWeight: 700, textAlign: "left", color: "#1a1a1a" }}>
+          Deforestación en Comunidades Nativas
+        </h1>
+      </div>
+
+      <nav style={{ display: "flex", justifyContent: "center", gap: "0.5rem", borderBottom: "1px solid #ddd", marginBottom: "2rem" }}>
         <button style={navStyle("inicio")} onClick={() => setTab("inicio")}>Inicio</button>
         <button style={navStyle("mapa")} onClick={() => setTab("mapa")}>Mapa</button>
         <button style={navStyle("estadisticas")} onClick={() => setTab("estadisticas")}>Estadísticas</button>
+        <button style={navStyle("suscribirse")} onClick={() => setTab("suscribirse")}>Suscribirse</button>
       </nav>
 
       {tab === "inicio" && (
@@ -56,6 +102,58 @@ export default function Home() {
           <p style={{ fontSize: "1.1rem", color: "#555", lineHeight: 1.7 }}>
             El contenido de las estadísticas irá aquí.
           </p>
+        </div>
+      )}
+
+      {tab === "suscribirse" && (
+        <div style={{ maxWidth: 480, margin: "0 auto", textAlign: "left" }}>
+          <h2 style={{ fontSize: "1.8rem", fontWeight: 600, marginBottom: "0.5rem", color: "#2d6a4f", textAlign: "center" }}>Suscribirse</h2>
+          <p style={{ color: "#555", marginBottom: "1.5rem", textAlign: "center" }}>
+            Completa el formulario para recibir actualizaciones.
+          </p>
+
+          <label style={labelStyle}>Nombre</label>
+          <input
+            style={inputStyle}
+            type="text"
+            placeholder="Tu nombre"
+            value={form.nombre}
+            onChange={e => setForm({ ...form, nombre: e.target.value })}
+          />
+
+          <label style={labelStyle}>Apellido</label>
+          <input
+            style={inputStyle}
+            type="text"
+            placeholder="Tu apellido"
+            value={form.apellido}
+            onChange={e => setForm({ ...form, apellido: e.target.value })}
+          />
+
+          <label style={labelStyle}>Correo electrónico</label>
+          <input
+            style={inputStyle}
+            type="email"
+            placeholder="tucorreo@ejemplo.com"
+            value={form.email}
+            onChange={e => setForm({ ...form, email: e.target.value })}
+          />
+
+          <label style={labelStyle}>Comunidad</label>
+          <select
+            style={{ ...inputStyle, color: form.comunidad ? "#1a1a1a" : "#888" }}
+            value={form.comunidad}
+            onChange={e => setForm({ ...form, comunidad: e.target.value })}
+          >
+            <option value="" disabled>Selecciona una comunidad</option>
+            {communities.map(c => (
+              <option key={c} value={c}>{c}</option>
+            ))}
+          </select>
+
+          <button style={{ marginTop: "2rem", width: "100%", padding: "0.75rem", fontSize: "1rem", backgroundColor: "#2d6a4f", color: "#fff", border: "none", borderRadius: "8px", cursor: "pointer" }}>
+            Suscribirse
+          </button>
         </div>
       )}
 
