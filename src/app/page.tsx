@@ -92,9 +92,12 @@ export default function Home() {
       {tab === "mapa" && (
         <div>
           <h2 style={{ fontSize: "1.8rem", fontWeight: 600, marginBottom: "1rem", color: "#2d6a4f" }}>Mapa</h2>
-          <p style={{ fontSize: "1.1rem", color: "#555", lineHeight: 1.7 }}>
-            El contenido del mapa irá aquí.
-          </p>
+          <iframe
+            src="https://peru-mapa.projects.earthengine.app/view/deforestacion-en-comunidades"
+            style={{ width: "100%", height: "600px", border: "none", borderRadius: "10px" }}
+            allowFullScreen
+            title="Mapa de Deforestación en Comunidades Nativas"
+          />
         </div>
       )}
 
