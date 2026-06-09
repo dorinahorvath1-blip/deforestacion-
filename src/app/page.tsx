@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import Image from "next/image";
+import Estadisticas from "./Estadisticas";
 
 export default function Home() {
   const [tab, setTab] = useState("inicio");
@@ -101,14 +102,7 @@ export default function Home() {
         </div>
       )}
 
-      {tab === "estadisticas" && (
-        <div>
-          <h2 style={{ fontSize: "1.8rem", fontWeight: 600, marginBottom: "1rem", color: "#2d6a4f" }}>Estadísticas</h2>
-          <p style={{ fontSize: "1.1rem", color: "#555", lineHeight: 1.7 }}>
-            El contenido de las estadísticas irá aquí.
-          </p>
-        </div>
-      )}
+      {tab === "estadisticas" && <Estadisticas />}
 
       {tab === "suscribirse" && (
         <div style={{ maxWidth: 480, margin: "0 auto", textAlign: "left" }}>
