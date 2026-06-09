@@ -6,6 +6,7 @@ import Estadisticas from "./Estadisticas";
 export default function Home() {
   const [tab, setTab] = useState("inicio");
   const [form, setForm] = useState({ nombre: "", apellido: "", email: "", comunidad: "" });
+  const [formStatus, setFormStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
 
   const navStyle = (t: string): React.CSSProperties => ({
     padding: "0.6rem 1.5rem",
@@ -108,51 +109,91 @@ export default function Home() {
         <div style={{ maxWidth: 480, margin: "0 auto", textAlign: "left" }}>
           <h2 style={{ fontSize: "1.8rem", fontWeight: 600, marginBottom: "0.5rem", color: "#2d6a4f", textAlign: "center" }}>Suscribirse</h2>
           <p style={{ color: "#555", marginBottom: "1.5rem", textAlign: "center" }}>
-            Completa el formulario para recibir actualizaciones.
+            Completa el formulario para recibir alertas de deforestación en tu comunidad.
           </p>
 
-          <label style={labelStyle}>Nombre</label>
-          <input
-            style={inputStyle}
-            type="text"
-            placeholder="Tu nombre"
-            value={form.nombre}
-            onChange={e => setForm({ ...form, nombre: e.target.value })}
-          />
+          {formStatus === "success" ? (
+            <div style={{ textAlign: "center", padding: "2rem", background: "#f6fbf8", borderRadius: "12px", border: "1px solid #b7e4c7" }}>
+              <div style={{ fontSize: "2.5rem", marginBottom: "0.5rem" }}>✅</div>
+              <h3 style={{ color: "#2d6a4f", marginBottom: "0.5rem" }}>¡Suscripción exitosa!</h3>
+              <p style={{ color: "#555" }}>Recibirás un correo de confirmación y serás notificado cuando se detecte deforestación en <strong>{form.comunidad}</strong>.</p>
+              <button onClick={() => { setFormStatus("idle"); setForm({ nombre: "", apellido: "", email: "", comunidad: "" }); }}
+                style={{ marginTop: "1.5rem", padding: "0.6rem 1.5rem", background: "#2d6a4f", color: "#fff", border: "none", borderRadius: "8px", cursor: "pointer" }}>
+                Nueva suscripción
+              </button>
+            </div>
+          ) : (
+            <>
+              <label style={labelStyle}>Nombre</label>
+              <input
+                style={inputStyle}
+                type="text"
+                placeholder="Tu nombre"
+                value={form.nombre}
+                onChange={e => setForm({ ...form, nombre: e.target.value })}
+              />
 
-          <label style={labelStyle}>Apellido</label>
-          <input
-            style={inputStyle}
-            type="text"
-            placeholder="Tu apellido"
-            value={form.apellido}
-            onChange={e => setForm({ ...form, apellido: e.target.value })}
-          />
+              <label style={labelStyle}>Apellido</label>
+              <input
+                style={inputStyle}
+                type="text"
+                placeholder="Tu apellido"
+                value={form.apellido}
+                onChange={e => setForm({ ...form, apellido: e.target.value })}
+              />
 
-          <label style={labelStyle}>Correo electrónico</label>
-          <input
-            style={inputStyle}
-            type="email"
-            placeholder="tucorreo@ejemplo.com"
-            value={form.email}
-            onChange={e => setForm({ ...form, email: e.target.value })}
-          />
+              <label style={labelStyle}>Correo electrónico</label>
+              <input
+                style={inputStyle}
+                type="email"
+                placeholder="tucorreo@ejemplo.com"
+                value={form.email}
+                onChange={e => setForm({ ...form, email: e.target.value })}
+              />
 
-          <label style={labelStyle}>Comunidad</label>
-          <select
-            style={{ ...inputStyle, color: form.comunidad ? "#1a1a1a" : "#888" }}
-            value={form.comunidad}
-            onChange={e => setForm({ ...form, comunidad: e.target.value })}
-          >
-            <option value="" disabled>Selecciona una comunidad</option>
-            {communities.map(c => (
-              <option key={c} value={c}>{c}</option>
-            ))}
-          </select>
+              <label style={labelStyle}>Comunidad</label>
+              <select
+                style={{ ...inputStyle, color: form.comunidad ? "#1a1a1a" : "#888" }}
+                value={form.comunidad}
+                onChange={e => setForm({ ...form, comunidad: e.target.value })}
+              >
+                <option value="" disabled>Selecciona una comunidad</option>
+                {communities.map(c => (
+                  <option key={c} value={c}>{c}</option>
+                ))}
+              </select>
 
-          <button style={{ marginTop: "2rem", width: "100%", padding: "0.75rem", fontSize: "1rem", backgroundColor: "#2d6a4f", color: "#fff", border: "none", borderRadius: "8px", cursor: "pointer" }}>
-            Suscribirse
-          </button>
+              {formStatus === "error" && (
+                <p style={{ color: "#c0392b", marginTop: "0.8rem", fontSize: "0.9rem" }}>
+                  Ocurrió un error al guardar tu suscripción. Por favor intenta de nuevo.
+                </p>
+              )}
+
+              <button
+                disabled={formStatus === "loading"}
+                onClick={async () => {
+                  if (!form.nombre || !form.apellido || !form.email || !form.comunidad) return;
+                  setFormStatus("loading");
+                  try {
+                    const res = await fetch("/api/suscribir", {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify(form),
+                    });
+                    if (res.ok) {
+                      setFormStatus("success");
+                    } else {
+                      setFormStatus("error");
+                    }
+                  } catch {
+                    setFormStatus("error");
+                  }
+                }}
+                style={{ marginTop: "2rem", width: "100%", padding: "0.75rem", fontSize: "1rem", backgroundColor: formStatus === "loading" ? "#95d5b2" : "#2d6a4f", color: "#fff", border: "none", borderRadius: "8px", cursor: formStatus === "loading" ? "not-allowed" : "pointer" }}>
+                {formStatus === "loading" ? "Guardando..." : "Suscribirse"}
+              </button>
+            </>
+          )}
         </div>
       )}
 
