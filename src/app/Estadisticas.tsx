@@ -255,10 +255,6 @@ export default function Estadisticas() {
               <div style={{ fontSize: "0.8rem", opacity: 0.8 }}>Comunidades seleccionadas</div>
               <div style={{ fontSize: "1.6rem", fontWeight: 700 }}>{selected.length}</div>
             </div>
-            <div style={{ background: "#52b788", color: "#fff", borderRadius: "10px", padding: "0.8rem 1.2rem", flex: 1, minWidth: 140 }}>
-              <div style={{ fontSize: "0.8rem", opacity: 0.8 }}>Período analizado</div>
-              <div style={{ fontSize: "1.6rem", fontWeight: 700 }}>{yearStart} – {yearEnd}</div>
-            </div>
             <div style={{ background: "#74c69d", color: "#fff", borderRadius: "10px", padding: "0.8rem 1.2rem", flex: 1, minWidth: 140 }}>
               <div style={{ fontSize: "0.8rem", opacity: 0.8 }}>Promedio anual</div>
               <div style={{ fontSize: "1.6rem", fontWeight: 700 }}>{filteredYears.length > 0 ? (grandTotal / filteredYears.length).toFixed(1) : "—"} <span style={{ fontSize: "0.9rem" }}>ha</span></div>
