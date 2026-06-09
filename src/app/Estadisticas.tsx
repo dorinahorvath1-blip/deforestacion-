@@ -21,6 +21,7 @@ function BarChart({
   comunidades: string[];
   yearRange: [string, string];
 }) {
+  const [tooltip, setTooltip] = useState<{ x: number; y: number; text: string } | null>(null);
   const years = AÑOS.filter((y) => y >= yearRange[0] && y <= yearRange[1]);
   const maxVal = Math.max(
     ...comunidades.flatMap((c) =>
@@ -40,8 +41,28 @@ function BarChart({
   const yTicks = [0, 0.25, 0.5, 0.75, 1].map((t) => Math.round(maxVal * t));
 
   return (
-    <div style={{ overflowX: "auto", width: "100%" }}>
-      <svg width={Math.max(chartWidth + padLeft, 600)} height={chartHeight + padBottom + 10} style={{ display: "block" }}>
+    <div style={{ overflowX: "auto", width: "100%", position: "relative" }}>
+      {tooltip && (
+        <div style={{
+          position: "absolute",
+          left: tooltip.x,
+          top: tooltip.y,
+          background: "#1b4332",
+          color: "#fff",
+          padding: "0.3rem 0.6rem",
+          borderRadius: "6px",
+          fontSize: "0.8rem",
+          fontWeight: 600,
+          pointerEvents: "none",
+          whiteSpace: "nowrap",
+          transform: "translate(-50%, -110%)",
+          zIndex: 10,
+          boxShadow: "0 2px 8px rgba(0,0,0,0.2)",
+        }}>
+          {tooltip.text}
+        </div>
+      )}
+      <svg width={Math.max(chartWidth + padLeft, 600)} height={chartHeight + padBottom + 10} style={{ display: "block" }} onMouseLeave={() => setTooltip(null)}>
         {/* Y axis ticks */}
         {yTicks.map((val) => {
           const y = chartHeight - (val / maxVal) * chartHeight;
@@ -74,9 +95,19 @@ function BarChart({
                       height={barH}
                       fill={COLORS[ci % COLORS.length]}
                       rx={2}
-                    >
-                      <title>{`${com} (${year}): ${val} ha`}</title>
-                    </rect>
+                      style={{ cursor: "pointer" }}
+                      onMouseEnter={(e) => {
+                        const svg = (e.target as SVGRectElement).closest("svg")!;
+                        const rect = svg.getBoundingClientRect();
+                        const container = svg.parentElement!.getBoundingClientRect();
+                        setTooltip({
+                          x: x + barWidth / 2 + padLeft - (container.left - rect.left),
+                          y: y - 4,
+                          text: `${com} (${year}): ${val} ha`,
+                        });
+                      }}
+                      onMouseLeave={() => setTooltip(null)}
+                    />
                   </g>
                 );
               })}
