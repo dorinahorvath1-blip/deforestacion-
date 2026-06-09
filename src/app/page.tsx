@@ -95,7 +95,7 @@ export default function Home() {
         <div>
           <h2 style={{ fontSize: "1.8rem", fontWeight: 600, marginBottom: "1rem", color: "#2d6a4f" }}>Mapa</h2>
           <iframe
-            src="https://peru-mapa.projects.earthengine.app/view/deforestacion-en-comunidades"
+            src="https://peru-mapa.projects.earthengine.app/view/pruebadseapp"
             style={{ width: "100%", height: "600px", border: "none", borderRadius: "10px" }}
             allowFullScreen
             title="Mapa de Deforestación en Comunidades Nativas"
