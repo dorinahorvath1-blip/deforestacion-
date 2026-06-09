@@ -107,7 +107,8 @@ function pemToDer(pem: string): ArrayBuffer {
     .replace(/-----BEGIN PRIVATE KEY-----/, "")
     .replace(/-----END PRIVATE KEY-----/, "")
     .replace(/\s/g, "");
-  return Buffer.from(b64, "base64");
+  const buf = Buffer.from(b64, "base64");
+  return buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.byteLength) as ArrayBuffer;
 }
 
 // ─────────────────────────────────────────────────────────────
