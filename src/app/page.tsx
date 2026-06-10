@@ -92,11 +92,17 @@ export default function Home() {
       )}
 
       {tab === "mapa" && (
-        <div>
-          <h2 style={{ fontSize: "1.8rem", fontWeight: 600, marginBottom: "1rem", color: "#2d6a4f" }}>Mapa</h2>
+        <div style={{ position: "fixed", top: 0, left: 0, width: "100vw", height: "100vh", zIndex: 1000, background: "#fff", display: "flex", flexDirection: "column" }}>
+          <button
+            onClick={() => setTab("inicio")}
+            style={{ position: "absolute", top: "1rem", right: "1rem", zIndex: 1001, background: "#2d6a4f", color: "#fff", border: "none", borderRadius: "50%", width: 40, height: 40, fontSize: "1.2rem", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 2px 8px rgba(0,0,0,0.2)" }}
+            title="Cerrar mapa"
+          >
+            ✕
+          </button>
           <iframe
             src="https://peru-mapa.projects.earthengine.app/view/pruebadseapp"
-            style={{ width: "100%", height: "600px", border: "none", borderRadius: "10px" }}
+            style={{ width: "100%", height: "100%", border: "none" }}
             allowFullScreen
             title="Mapa de Deforestación en Comunidades Nativas"
           />
