@@ -101,7 +101,7 @@ export default function Home() {
             ✕
           </button>
           <iframe
-            src="https://peru-mapa.projects.earthengine.app/view/pruebadseapp"
+            src="https://peru-mapa.projects.earthengine.app/view/encontrardeforestacion"
             style={{ width: "100%", height: "100%", border: "none" }}
             allowFullScreen
             title="Mapa de Deforestación en Comunidades Nativas"
