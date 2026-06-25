@@ -39,7 +39,7 @@ export async function POST(req: NextRequest) {
       "Authorization": `Bearer ${RESEND_KEY}`,
     },
     body: JSON.stringify({
-      from: "Paz y Esperanza <dorina@pazyesperanza.org>",
+      from: "Paz y Esperanza <onboarding@resend.dev>",
       to: email,
       subject: "Confirmación de suscripción – Monitoreo de Deforestación",
       html: `

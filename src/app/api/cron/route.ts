@@ -44,7 +44,7 @@ export async function GET(req: NextRequest) {
         method: "POST",
         headers: { "Content-Type": "application/json", "Authorization": `Bearer ${RESEND_KEY}` },
         body: JSON.stringify({
-          from: "Paz y Esperanza <dorina@pazyesperanza.org>",
+          from: "Paz y Esperanza <onboarding@resend.dev>",
           to: sub.email,
           subject: `⚠️ Alerta de Deforestación – ${sub.comunidad}`,
           html: `
