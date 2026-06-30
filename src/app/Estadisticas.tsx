@@ -173,7 +173,7 @@ export default function Estadisticas() {
 
   const btnBase: React.CSSProperties = {
     padding: "0.35rem 0.75rem",
-    borderRadius: "20px",
+    borderRadius: "4px",
     border: "2px solid #2d6a4f",
     cursor: "pointer",
     fontSize: "0.8rem",
