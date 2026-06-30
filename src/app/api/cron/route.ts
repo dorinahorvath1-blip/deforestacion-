@@ -21,17 +21,27 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: "No autorizado" }, { status: 401 });
   }
 
-  const communitiesWithAlerts = await getCommunitiesWithNewDeforestation();
+  const isTest = req.nextUrl.searchParams.get("test") === "true";
 
-  if (communitiesWithAlerts.length === 0) {
-    return NextResponse.json({ message: "Sin nuevas alertas de deforestación." });
+  let subsRes: Response;
+  if (isTest) {
+    subsRes = await fetch(
+      `${SUPABASE_URL}/rest/v1/suscriptores?activo=eq.true&select=nombre,email,comunidad`,
+      { headers: { "apikey": SUPABASE_KEY, "Authorization": `Bearer ${SUPABASE_KEY}` } }
+    );
+  } else {
+    const communitiesWithAlerts = await getCommunitiesWithNewDeforestation();
+
+    if (communitiesWithAlerts.length === 0) {
+      return NextResponse.json({ message: "Sin nuevas alertas de deforestación." });
+    }
+
+    const query = communitiesWithAlerts.map(c => `comunidad=eq.${encodeURIComponent(c)}`).join("&");
+    subsRes = await fetch(
+      `${SUPABASE_URL}/rest/v1/suscriptores?${query}&activo=eq.true&select=nombre,email,comunidad`,
+      { headers: { "apikey": SUPABASE_KEY, "Authorization": `Bearer ${SUPABASE_KEY}` } }
+    );
   }
-
-  const query = communitiesWithAlerts.map(c => `comunidad=eq.${encodeURIComponent(c)}`).join("&");
-  const subsRes = await fetch(
-    `${SUPABASE_URL}/rest/v1/suscriptores?${query}&activo=eq.true&select=nombre,email,comunidad`,
-    { headers: { "apikey": SUPABASE_KEY, "Authorization": `Bearer ${SUPABASE_KEY}` } }
-  );
 
   const subscribers: { nombre: string; email: string; comunidad: string }[] = await subsRes.json();
   if (!subscribers || subscribers.length === 0) {
