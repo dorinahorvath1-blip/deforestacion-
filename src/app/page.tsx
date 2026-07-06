@@ -72,7 +72,7 @@ export default function Home() {
         <button style={navStyle("inicio")} onClick={() => setTab("inicio")}>Inicio</button>
         <button style={navStyle("mapa")} onClick={() => setTab("mapa")}>Mapa</button>
         <button style={navStyle("estadisticas")} onClick={() => setTab("estadisticas")}>Estadísticas</button>
-        <button style={navStyle("suscribirse")} onClick={() => setTab("suscribirse")}>Suscribirse</button>
+        {/* <button style={navStyle("suscribirse")} onClick={() => setTab("suscribirse")}>Suscribirse</button> */}
       </nav>
 
       {tab === "inicio" && (
