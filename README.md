@@ -6,13 +6,11 @@ A Next.js web application for monitoring deforestation in native communities in 
 
 - Interactive map via Google Earth Engine
 - Deforestation statistics with charts and tables
-- Email alert subscriptions by community
+- Email alert subscriptions by community *(currently disabled — see below)*
 
 ## Tech Stack
 
 - [Next.js](https://nextjs.org/) — React framework
-- [Supabase](https://supabase.com/) — database for storing subscribers
-- [Resend](https://resend.com/) — email sending
 - [Vercel](https://vercel.com/) — hosting
 
 ---
@@ -32,9 +30,37 @@ cd deforestacion-
 npm install
 ```
 
-### 3. Create your environment variables
+### 3. Run locally
 
-Create a `.env.local` file in the root of the project with the following:
+```bash
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000)
+
+No accounts or environment variables are needed to run the app locally.
+
+---
+
+## Deploying to Vercel
+
+1. Push the repo to GitHub
+2. Import the project at [vercel.com](https://vercel.com)
+3. Deploy — no environment variables required for the base app
+
+---
+
+## Optional: Re-enabling Email Subscriptions
+
+The email subscription system (Supabase + Resend + cron job) is fully built but currently commented out. To re-enable it:
+
+### Accounts needed
+- [Supabase](https://supabase.com) — free tier works
+- [Resend](https://resend.com) — free tier works (requires a verified domain to send to external emails)
+
+### Step 1 — Create environment variables
+
+Create a `.env.local` file in the root:
 
 ```env
 # Supabase
@@ -48,11 +74,9 @@ RESEND_API_KEY=your-resend-api-key
 CRON_SECRET=your-random-secret
 ```
 
-### 4. Set up Supabase
+### Step 2 — Create the Supabase table
 
-1. Create a free account at [supabase.com](https://supabase.com)
-2. Create a new project
-3. Go to **SQL Editor** and run:
+In Supabase → SQL Editor, run:
 
 ```sql
 CREATE TABLE public.suscriptores (
@@ -68,37 +92,22 @@ CREATE TABLE public.suscriptores (
 ALTER TABLE public.suscriptores ENABLE ROW LEVEL SECURITY;
 ```
 
-4. Copy your **Project URL** and **service_role key** from Supabase → Settings → API into `.env.local`
+### Step 3 — Uncomment the code
 
-### 5. Set up Resend
+Uncomment the following files:
+- `src/app/page.tsx` — the Suscribirse tab and form state
+- `src/app/api/suscribir/route.ts` — saves emails to Supabase and sends welcome email
+- `src/app/api/cron/route.ts` — sends alert emails when deforestation is detected
 
-1. Create a free account at [resend.com](https://resend.com)
-2. Add and verify a domain for sending emails
-3. Copy your API key into `.env.local`
-4. Update the `from` address in these two files to use your verified domain:
-   - `src/app/api/suscribir/route.ts`
-   - `src/app/api/cron/route.ts`
+Also update the `from` email address in both API route files to use your verified Resend domain.
 
-### 6. Run locally
+### Step 4 — Add env vars to Vercel
 
-```bash
-npm run dev
-```
+In Vercel → Settings → Environment Variables, add all four variables from `.env.local`, then redeploy.
 
-Open [http://localhost:3000](http://localhost:3000)
+### Step 5 — Set up the cron job (automated alerts)
 
----
-
-## Deploying to Vercel
-
-1. Push the repo to GitHub
-2. Import the project at [vercel.com](https://vercel.com)
-3. Add all environment variables from `.env.local` in Vercel → Settings → Environment Variables
-4. Deploy
-
-### Setting up the cron job (automated email alerts)
-
-In `vercel.json` (create if it doesn't exist), add:
+Create a `vercel.json` file in the root:
 
 ```json
 {
@@ -111,13 +120,9 @@ In `vercel.json` (create if it doesn't exist), add:
 }
 ```
 
-This runs the deforestation check every day at 8am UTC. Vercel will call the endpoint automatically with the `CRON_SECRET` as a Bearer token.
+This runs the deforestation check every day at 8am UTC.
 
----
-
-## Testing email alerts manually
-
-Once deployed, run this in your terminal to send a test alert to all active subscribers:
+### Testing email alerts manually
 
 ```bash
 curl -H "Authorization: Bearer YOUR_CRON_SECRET" "https://your-vercel-app.vercel.app/api/cron?test=true"

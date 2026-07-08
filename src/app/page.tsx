@@ -5,8 +5,8 @@ import Estadisticas from "./Estadisticas";
 
 export default function Home() {
   const [tab, setTab] = useState("inicio");
-  const [form, setForm] = useState({ nombre: "", apellido: "", email: "", comunidad: "" });
-  const [formStatus, setFormStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  // const [form, setForm] = useState({ nombre: "", apellido: "", email: "", comunidad: "" });
+  // const [formStatus, setFormStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
 
   const navStyle = (t: string): React.CSSProperties => ({
     padding: "0.6rem 1.5rem",
@@ -111,6 +111,8 @@ export default function Home() {
 
       {tab === "estadisticas" && <Estadisticas />}
 
+      {/* Suscribirse tab — commented out. Uncomment to re-enable email subscriptions.
+          Also requires: Supabase, Resend accounts and env vars (see README).
       {tab === "suscribirse" && (
         <div style={{ maxWidth: 480, margin: "0 auto", textAlign: "left" }}>
           <h2 style={{ fontSize: "1.8rem", fontWeight: 600, marginBottom: "0.5rem", color: "#2d6a4f", textAlign: "center" }}>Suscribirse</h2>
@@ -202,6 +204,7 @@ export default function Home() {
           )}
         </div>
       )}
+      */}
 
       <p style={{ marginTop: "3rem", color: "#888", fontSize: "0.9rem" }}>
         Publicado en Vercel · Desarrollado con Next.js
